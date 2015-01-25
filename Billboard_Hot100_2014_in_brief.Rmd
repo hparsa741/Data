@@ -1,0 +1,138 @@
+    
+```
+```
+
+### Billboard Hot100 2014 in brief
+
+
+Hossein Parsa
+```
+```
+
+#### Introduction
+
+The [Billboard Hot100](http://www.billboard.com/charts/hot-100) is a chart that ranks the best performing singles of the United States and is published weekly by Billboard Magazine. The ranking is based on radio play, online streaming and sales figures.
+
+#### Data Acquisition and processing
+
+The data for the Billboard Hot100 2014 chart was scraped using `Python` code which is available at [GitHub](https://github.com/hparsa741/Data) in two steps of downloading source code and extracting the data. Once the data is available in csv format we start analyzing in `R` by reading the file.
+
+
+```{r, echo=TRUE, cache=FALSE, message=FALSE, warning=FALSE}
+data <- data.frame(read.csv("Hot100_2014.csv"))
+library(sqldf)
+library(dplyr)
+library(ggplot2)
+```
+
+#### Uniques
+  
+Number of Unique Artists
+  
+```{r, echo=TRUE, cache=TRUE}
+length(unique(data$singer))
+```
+  
+Number of unique Songs
+  
+```{r, echo=TRUE, cache=TRUE}
+dim(unique(data[c("singer", "song")]))[1]
+```
+  
+Average song per artist
+  
+```{r, echo=TRUE, cache=TRUE}
+dim(unique(data[c("singer", "song")]))[1]/length(unique(data$singer))
+```
+  
+#### Position 1
+  
+Artists and count of weeks holding Position 1 
+  
+```{r, echo=TRUE, cache=TRUE, message=FALSE, warning=FALSE}
+pos1<-data[which(data$pos == 1),]
+arrange(summarize(group_by(pos1, singer), weeks = n()), desc(weeks))
+```
+  
+Songs and count of weeks holding Position 1 
+  
+```{r, echo=TRUE, cache=TRUE}
+pos1song<-aggregate(pos1$pos, list(singer=pos1$singer, song=pos1$song), sum)
+names(pos1song)<-c("singer", "song", "weeks")
+arrange(pos1song, desc(weeks))
+```
+  
+#### Songs weeks on chart distribution
+  
+```{r, echo=TRUE, cache=TRUE}
+sscount<-summarize(group_by(data, singer, song), count = n())
+ggplot(sscount, aes(count))+geom_histogram(aes(y = ..density.., fill= ..count..), binwidth=1)+geom_density(color='red')+scale_fill_gradient("Count", low = "lightgreen", high = "darkgrey")+labs(title = "Weeks on chart distribution - song")+xlab("Weeks on chart")+guides(fill = guide_legend(title = "count of \nsongs", title.position = "top"))+theme(panel.background = element_rect(fill = "white"))
+```
+  
+#### Artists with 5 or more unique song
+  
+```{r, echo=TRUE, cache=TRUE, message=FALSE, warning=FALSE}
+sqldf("with t as (select distinct singer, song from data) select singer, count(0) as countOfSong from t group by singer having count(0) > 4 order by 2 desc")
+```
+  
+#### Songs per artist distribution
+  
+```{r, echo=TRUE, cache=TRUE, message=FALSE, warning=FALSE}
+ggplot(sqldf("with t as (select distinct singer, song from data) select singer, count(0) as countOfSong from t group by singer order by 2 desc"), aes(countOfSong))+geom_histogram(aes( fill= ..count..), binwidth=1)+scale_fill_gradient("Count", low = "darkgreen", high = "darkgrey")+labs(title = "Song per artist distribution")+xlab("Song per artist")+ylab("")+guides(fill = guide_legend(title = "count of \nartist", title.position = "top"))+theme(panel.background = element_rect(fill = "white"))
+```
+  
+#### Top weeks on chart artists
+  
+45 or more weeks on chart
+  
+```{r, echo=TRUE, cache=TRUE}
+sqldf("select singer, count(0) as Weeks_on_Chart from (select distinct singer, weekNo from data) group by singer having count(0) >= 45 order by 2 desc, 1")
+```
+  
+Weeks on chart distribution
+  
+```{r, echo=TRUE, cache=TRUE}
+ggplot(sqldf("select singer, count(0) as Weeks_on_Chart from (select distinct singer, weekNo from data) group by singer order by 2 desc, 1"), aes(Weeks_on_Chart))+geom_histogram(aes(y=..density.., fill= ..count..), binwidth=1)+geom_density(color='red')+scale_fill_gradient("Count", low = "darkgreen", high = "darkgrey")+labs(title = "Weeks on Chart Artist distribution")+xlab("Weeks on Chart")+ylab("")+guides(fill = guide_legend(title = "count of \nartist", title.position = "top"))+theme(panel.background = element_rect(fill = "white"))
+```
+    
+Top 15 Artists appeared most on chart
+  
+```{r, echo=TRUE, cache=TRUE}
+singerOnChart<-aggregate( pos ~ singer, data = data, FUN = length)
+names(singerOnChart)<-c("Artist", "Weeks")
+head(singerOnChart[with(singerOnChart, order(-Weeks)),], 15)
+```
+  
+#### Top weeks on chart songs
+  
+30 or more weeks on chart
+  
+```{r, echo=TRUE, cache=TRUE}
+sqldf("select singer, song, count(0) as Weeks_on_Chart from (select distinct singer, song, weekNo from data) group by singer, song having count(0) >= 30 order by 3 desc, 1")
+```
+  
+Weeks on chart distribution
+  
+```{r, echo=TRUE, cache=TRUE}
+ggplot(sqldf("select singer, song, count(0) as Weeks_on_Chart from (select distinct singer, song, weekNo from data) group by singer, song order by 3 desc, 1"), aes(Weeks_on_Chart))+geom_histogram(aes(y=..density.., fill= ..count..), binwidth=1)+geom_density(color='red')+scale_fill_gradient("Count", low = "darkgreen", high = "darkgrey")+labs(title = "Weeks on Chart Song distribution")+xlab("Weeks on Chart")+ylab("")+guides(fill = guide_legend(title = "count of \nartist", title.position = "top"))+theme(panel.background = element_rect(fill = "white"))
+```
+  
+Positions of top 10 longest on chart songs
+    
+```{r}
+topSong<-aggregate(data$pos, list(singer=data$singer, song=data$song), length)
+head(topSong[order(-topSong[,3]),],10)
+topSong<-head(topSong[order(-topSong[,3]),],10)
+topAll <- data[data$song %in% head(topSong[order(-topSong[,3]),],10)$song & data$singer %in% head(topSong[order(-topSong[,3]),],10)$singer,]
+
+ggplot(topAll, aes(weekNo, pos))+geom_line(aes(col=topAll$song),size=1)+labs(title = "Position of longest on chart songs", colour="Song")+xlab("Week Number")+ylab("")+guides(fill = guide_legend(title = "count of \nartist", title.position = "top"))+theme(panel.background = element_rect(fill = "white"))
+```
+  
+```{r, echo=FALSE, cache=TRUE, eval=FALSE}
+#### Sons from different artists having exactly same titles
+sqldf("with tout as (select distinct data.singer, data.song from data, (select distinct song, count(0) from (select singer, song from data group by singer, song) group by song having count(0) >1 order by 2) t where t.song=data.song) select song, GROUP_CONCAT(singer, ', ') as 'List of Artists' , count(0) from tout group by song")
+```
+  
+  
+```
+```
