@@ -13,7 +13,7 @@ Hossein Parsa
 
 The [Billboard Hot100](http://www.billboard.com/charts/hot-100) is a chart that ranks the best performing singles of the United States and is published weekly by Billboard Magazine. The ranking is based on radio play, online streaming and sales figures.
 
-#### Data Acquisition and processing
+#### Data acquisition and processing
 
 The data for the Billboard Hot100 2014 chart was scraped using `Python` code which is available at [GitHub](https://github.com/hparsa741/Data) in two steps of downloading source code and extracting the data. Once the data is available in csv format we start analyzing in `R` by reading the file.
 

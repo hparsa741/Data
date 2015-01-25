@@ -62,7 +62,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>The <a href="http://www.billboard.com/charts/hot-100">Billboard Hot100</a> is a chart that ranks the best performing singles of the United States and is published weekly by Billboard Magazine. The ranking is based on radio play, online streaming and sales figures.</p>
 </div>
 <div id="data-acquisition-and-processing" class="section level4">
-<h4>Data Acquisition and processing</h4>
+<h4>Data acquisition and processing</h4>
 <p>The data for the Billboard Hot100 2014 chart was scraped using <code>Python</code> code which is available at <a href="https://github.com/hparsa741/Data">GitHub</a> in two steps of downloading source code and extracting the data. Once the data is available in csv format we start analyzing in <code>R</code> by reading the file.</p>
 <pre class="r"><code>data &lt;- data.frame(read.csv(&quot;Hot100_2014.csv&quot;))
 library(sqldf)
