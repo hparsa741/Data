@@ -63,7 +63,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 <div id="data-acquisition-and-processing" class="section level4">
 <h4>Data acquisition and processing</h4>
-<p>The data for the Billboard Hot100 2014 chart was scraped using <code>Python</code> code which is available at <a href="https://github.com/hparsa741/Data">GitHub</a> in two steps of downloading source code and extracting the data. Once the data is available in csv format we start analyzing in <code>R</code> by reading the file.</p>
+<p>The data for the Billboard Hot100 2014 chart was scraped using <code>Python</code> code in two steps of downloading the source code from Billboard website (<a href="https://github.com/hparsa741/Data/blob/master/Hot100_2014_getSource.py">GitHub</a>) and extracting the data from the source code (<a href="https://github.com/hparsa741/Data/blob/master/Hot100_2014_extact.py">GitHub</a>). Once the data is available in csv format (<a href="https://github.com/hparsa741/Data/blob/master/Hot100_2014.csv">GitHub</a>) we begin reading the file and analyzing the data using <code>R</code>.</p>
 <pre class="r"><code>data &lt;- data.frame(read.csv(&quot;Hot100_2014.csv&quot;))
 library(sqldf)
 library(dplyr)

@@ -15,7 +15,7 @@ The [Billboard Hot100](http://www.billboard.com/charts/hot-100) is a chart that 
 
 #### Data acquisition and processing
 
-The data for the Billboard Hot100 2014 chart was scraped using `Python` code which is available at [GitHub](https://github.com/hparsa741/Data) in two steps of downloading source code and extracting the data. Once the data is available in csv format we start analyzing in `R` by reading the file.
+The data for the Billboard Hot100 2014 chart was scraped using `Python` code in two steps of downloading the source code from Billboard website ([GitHub](https://github.com/hparsa741/Data/blob/master/Hot100_2014_getSource.py)) and extracting the data from the source code ([GitHub](https://github.com/hparsa741/Data/blob/master/Hot100_2014_extact.py)). Once the data is available in csv format ([GitHub](https://github.com/hparsa741/Data/blob/master/Hot100_2014.csv)) we begin reading the file and analyzing the data using `R`.
 
 
 ```{r, echo=TRUE, cache=FALSE, message=FALSE, warning=FALSE}
