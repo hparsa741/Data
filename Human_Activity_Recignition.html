@@ -153,12 +153,17 @@ confusionMatrix(Pred, testData$classe)</code></pre>
 ## Detection Prevalence   0.2846   0.1934   0.1743   0.1636   0.1840
 ## Balanced Accuracy      0.9999   0.9996   1.0000   0.9995   0.9999</code></pre>
 <p>As presented by the output of confusionMatrix function, the accuracy is 99.97%.</p>
+<p>Now applying the model to the unseen test set we get the following result.</p>
+<pre class="r"><code>testSet&lt;-read.csv(&quot;pml-testing.csv&quot;, na.string=c(&quot;&quot;, &quot;NA&quot;, &quot;#DIV/0!&quot;))
+predict(gbmFit, newdata = testSet)</code></pre>
+<pre><code>##  [1] B A B A A E D B A A B C B A E E A B B B
+## Levels: A B C D E</code></pre>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="http://groupware.les.inf.puc-rio.br/har"><a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a></a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p><a href="http://groupware.les.inf.puc-rio.br/har"><a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a></a>.<a href="#fnref1">↩</a></p></li>
 </ol>
 </div>
 
