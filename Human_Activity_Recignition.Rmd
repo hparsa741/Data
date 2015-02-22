@@ -91,7 +91,9 @@ gbmFit <- train(classe ~ ., data = data,
 
 ```
 
-
+#### Cross Validation Acuracy
+  
+The following graph provides `in samsple` accuracy with respect to `Max Tree Depth` and `Boosting Iterations` based on `2-fold` cross validation.
 
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
@@ -103,7 +105,8 @@ ggplot(gbmFit)
     
 #### Predicting
 
-Predicting the test data set and evaluating the performance of learning process on this data set.
+Predicting the test data set and evaluating the performance of learning process on this data set also Provides `out of sample` accuracy.
+
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
 
