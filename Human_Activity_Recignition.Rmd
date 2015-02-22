@@ -65,7 +65,7 @@ heatmap(Corr, col = mcol)
   
 #### Training  
 
-Setting control parameters and training using GBM method. Preprocessing the training data set is included in the training function.
+For building the prediction model and training, we use `Gradient Boosting Method` or GBM. We also use `repeated 2-fold cross validation` to reduce the `out of sample error` i.e. to reduce the error when the model is applied to a new data set. Preprocessing methods `center` and `scale` are also included in the training function to normalize the features' data.
 
 
 ```{r, echo=TRUE, cache=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
@@ -93,7 +93,7 @@ gbmFit <- train(classe ~ ., data = data,
 
 #### Cross Validation Acuracy
   
-The following graph provides `in samsple` accuracy with respect to `Max Tree Depth` and `Boosting Iterations` based on `2-fold` cross validation.
+The following graph provides `in samsple` accuracy with respect to `Max Tree Depth` and `Boosting Iterations` based on 2-fold cross validation.
 
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
@@ -105,7 +105,7 @@ ggplot(gbmFit)
     
 #### Predicting
 
-Predicting the test data set and evaluating the performance of learning process on this data set also Provides `out of sample` accuracy.
+Predicting the test data set and evaluating the performance of learning process on this data set also Provides `out of sample accuracy`.
 
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
