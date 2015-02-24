@@ -93,7 +93,7 @@ gbmFit <- train(classe ~ ., data = data,
 
 #### Cross Validation Acuracy
   
-The following graph provides `in samsple` accuracy with respect to `Max Tree Depth` and `Boosting Iterations` based on 2-fold cross validation.
+The following graph provides `in-sample` accuracy with respect to `Max Tree Depth` and `Boosting Iterations` based on 2-fold cross validation.
 
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
@@ -105,7 +105,7 @@ ggplot(gbmFit)
     
 #### Predicting
 
-Predicting the test data set and evaluating the performance of learning process on this data set also Provides `out of sample accuracy`.
+Predicting the test data set and evaluating the performance of learning process on this data set also Provides out of sample accuracy.
 
 
 ```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
@@ -116,7 +116,7 @@ confusionMatrix(Pred, testData$classe)
 ```
     
     
-As presented by the output of confusionMatrix function, the accuracy is 99.97%.
+As presented by the output of confusionMatrix function, the accuracy is 99.97%. So The `out-of-sample error` is estimated to be 0.03%.
 
 Now applying the model to the unseen test set we get the following result.
 ```{r, echo=TRUE, cache=TRUE, eval=TRUE}
