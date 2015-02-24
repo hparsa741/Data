@@ -156,7 +156,7 @@ confusionMatrix(Pred, testData$classe)</code></pre>
 ## Detection Rate         0.2845   0.1934   0.1743   0.1636   0.1839
 ## Detection Prevalence   0.2846   0.1934   0.1743   0.1636   0.1840
 ## Balanced Accuracy      0.9999   0.9996   1.0000   0.9995   0.9999</code></pre>
-<p>As presented by the output of confusionMatrix function, the accuracy is 99.97%. So The <code>out-of-sample error</code> is estimated to be 0.03%.</p>
+<p>As presented by the output of confusionMatrix function, the accuracy is 99.97%. So the <code>out-of-sample error</code> is estimated to be 0.03%.</p>
 <p>Now applying the model to the unseen test set we get the following result.</p>
 <pre class="r"><code>testSet&lt;-read.csv(&quot;pml-testing.csv&quot;, na.string=c(&quot;&quot;, &quot;NA&quot;, &quot;#DIV/0!&quot;))
 predict(gbmFit, newdata = testSet)</code></pre>
